@@ -1,0 +1,60 @@
+services:
+  - type: web
+    name: queueflow-api
+    env: docker
+    dockerfilePath: docker/Dockerfile.api
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: queueflow-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: queueflow-redis
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+
+  - type: worker
+    name: queueflow-worker
+    env: docker
+    dockerfilePath: docker/Dockerfile.worker
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: queueflow-postgres
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: queueflow-redis
+          property: connectionString
+
+  - type: web
+    name: queueflow-web
+    env: docker
+    dockerfilePath: docker/Dockerfile.web
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: queueflow-api
+          property: url
+
+databases:
+  - name: queueflow-postgres
+    databaseName: queueflow
+    user: postgres
+
+redis:
+  - name: queueflow-redis
+    plan: free

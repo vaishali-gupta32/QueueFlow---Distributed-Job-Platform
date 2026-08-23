@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+out/
+build/
+coverage/
+*.log
+.env
+.env.local
+.env.production
+.idea/
+.vscode/
+.DS_Store
+prisma/*.db
+prisma/*.db-journal
