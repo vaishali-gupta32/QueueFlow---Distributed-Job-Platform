@@ -57,7 +57,7 @@ QueueFlow is a production-grade, distributed asynchronous job processing and not
 - **Worker Engine**: Node.js, BullMQ, ioredis.
 - **Database & Storage**: PostgreSQL 15, Prisma ORM, Redis 7.
 - **Testing**: Jest, Supertest.
-- **DevOps**: Docker, Docker Compose, GitHub Actions CI.
+- **DevOps**: Docker, Docker Compose, GitHub Actions CI, Render Blueprint.
 
 ---
 
@@ -109,8 +109,8 @@ QueueFlow is a production-grade, distributed asynchronous job processing and not
 ### Option A: Running with Docker Compose (Recommended)
 ```bash
 # 1. Clone repository
-git clone https://github.com/your-org/queueflow.git
-cd queueflow
+git clone https://github.com/vaishali-gupta32/QueueFlow---Distributed-Job-Platform.git
+cd QueueFlow---Distributed-Job-Platform
 
 # 2. Copy environment file
 cp .env.example .env
@@ -147,14 +147,30 @@ npm run dev
 
 ---
 
-## 7. Seeded Demo Login Credentials
+## 7. Cloud & Production Deployment
+
+### 1-Click Free Hosting on Render
+1. Go to [Render Dashboard](https://dashboard.render.com).
+2. Click **New +** -> **Blueprint**.
+3. Connect repository `vaishali-gupta32/QueueFlow---Distributed-Job-Platform`.
+4. Click **Apply**. Render will automatically provision PostgreSQL, Redis, Express API, Worker Engine, and Next.js Web Frontend using `render.yaml`.
+
+### VPS / Automated Windows Deployment
+For 1-click Windows automated build and launch:
+```powershell
+.\deploy.ps1
+```
+
+---
+
+## 8. Seeded Demo Login Credentials
 
 - **Admin Account**: `admin@queueflow.io` / `password123`
 - **User Account**: `user@queueflow.io` / `password123`
 
 ---
 
-## 8. API Reference Summary
+## 9. API Reference Summary
 
 | Method | Endpoint | Description | Auth |
 | :--- | :--- | :--- | :--- |
@@ -174,7 +190,7 @@ npm run dev
 
 ---
 
-## 9. Failure Scenarios & Reliability Design
+## 10. Failure Scenarios & Reliability Design
 
 1. **Worker Process Crash**: BullMQ locks active jobs. If a worker crashes mid-execution, BullMQ's stall detector reclaims the unacknowledged job after timeout and re-assigns it to another active worker node.
 2. **PostgreSQL Down**: `/health/ready` reports `503 Service Unavailable`. API fails early instead of acknowledging jobs that cannot be persisted.
@@ -183,14 +199,12 @@ npm run dev
 
 ---
 
-## 10. Testing
+## 11. Testing
 
-Run automated tests:
+Run automated unit tests:
 ```bash
 npm run test
 ```
 Tests include:
 - `tests/unit/retry.test.ts`: Verifies exponential backoff calculation (`base * 2^(n-1)`).
 - `tests/unit/validation.test.ts`: Verifies Zod schemas for job type validation.
-#   Q u e u e F l o w - - - D i s t r i b u t e d - J o b - P l a t f o r m  
- 
