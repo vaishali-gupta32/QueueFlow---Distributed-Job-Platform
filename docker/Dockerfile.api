@@ -20,4 +20,4 @@ COPY --from=builder /app/apps/api ./apps/api
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 4000
-CMD ["npm", "run", "start", "--workspace=apps/api"]
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm run start --workspace=apps/api"]

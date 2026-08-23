@@ -19,4 +19,5 @@ COPY --from=builder /app/packages/shared ./packages/shared
 COPY --from=builder /app/apps/worker ./apps/worker
 COPY --from=builder /app/prisma ./prisma
 
-CMD ["npm", "run", "start", "--workspace=apps/worker"]
+EXPOSE 4001
+CMD ["sh", "-c", "npm run start --workspace=apps/worker"]
