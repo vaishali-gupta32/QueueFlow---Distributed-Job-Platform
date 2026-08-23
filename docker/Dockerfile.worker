@@ -1,5 +1,4 @@
-FROM node:20-slim AS builder
-RUN apt-get update -y && apt-get install -y openssl ca-certificates
+FROM node:20 AS builder
 WORKDIR /app
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
@@ -11,8 +10,7 @@ RUN npx prisma generate
 RUN npm run build --workspace=packages/shared
 RUN npm run build --workspace=apps/worker
 
-FROM node:20-slim AS runner
-RUN apt-get update -y && apt-get install -y openssl ca-certificates
+FROM node:20 AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 COPY package*.json ./
