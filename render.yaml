@@ -8,6 +8,7 @@ services:
     name: queueflow-api
     env: docker
     dockerfilePath: docker/Dockerfile.api
+    plan: free
     envVars:
       - key: PORT
         value: "4000"
@@ -29,6 +30,7 @@ services:
     name: queueflow-worker
     env: docker
     dockerfilePath: docker/Dockerfile.worker
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
@@ -46,6 +48,7 @@ services:
     name: queueflow-web
     env: docker
     dockerfilePath: docker/Dockerfile.web
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
@@ -53,9 +56,9 @@ services:
         fromService:
           type: web
           name: queueflow-api
-          property: url
+          property: host
 
 databases:
   - name: queueflow-postgres
     databaseName: queueflow
-    user: postgres
+    plan: free
