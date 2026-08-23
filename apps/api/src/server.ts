@@ -2,7 +2,7 @@ import app from './app';
 import { config } from './config/env';
 import { logger } from './utils/logger';
 
-const server = app.listen(config.port, () => {
+const server = app.listen(config.port, '0.0.0.0', () => {
   logger.info(
     { event: 'api_started', port: config.port, env: config.nodeEnv },
     `QueueFlow API Server listening on port ${config.port}`
