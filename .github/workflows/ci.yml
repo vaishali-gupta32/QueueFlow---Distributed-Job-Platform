@@ -10,6 +10,12 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/queueflow_test?schema=public
+      REDIS_URL: redis://localhost:6379
+      JWT_SECRET: super-secret-queueflow-jwt-key-2026
+      NEXT_PUBLIC_API_URL: http://localhost:4000
+
     services:
       postgres:
         image: postgres:15-alpine
@@ -46,15 +52,16 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Generate Prisma Client
         run: npx prisma generate
 
       - name: Run Database Migrations
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/queueflow_test?schema=public
-        run: npx prisma db push
+        run: npx prisma db push --accept-data-loss
+
+      - name: Build Shared Package
+        run: npm run build --workspace=packages/shared
 
       - name: Run Unit Tests
         run: npm run test
