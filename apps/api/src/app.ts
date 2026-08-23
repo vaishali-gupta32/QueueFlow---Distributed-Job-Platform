@@ -38,6 +38,9 @@ app.use((req, res, next) => {
 setupSwagger(app);
 
 // Mount Routes
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', service: 'QueueFlow API', timestamp: new Date().toISOString() });
+});
 app.use('/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobsRoutes);

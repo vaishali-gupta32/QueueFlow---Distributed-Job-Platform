@@ -9,6 +9,7 @@ services:
     env: docker
     dockerfilePath: docker/Dockerfile.api
     plan: free
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
@@ -47,6 +48,7 @@ services:
     env: docker
     dockerfilePath: docker/Dockerfile.web
     plan: free
+    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
