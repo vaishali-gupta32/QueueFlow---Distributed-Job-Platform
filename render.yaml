@@ -1,11 +1,16 @@
 services:
+  - type: redis
+    name: queueflow-redis
+    ipAllowList: []
+    plan: free
+
   - type: web
     name: queueflow-api
     env: docker
     dockerfilePath: docker/Dockerfile.api
     envVars:
       - key: PORT
-        value: 4000
+        value: "4000"
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
@@ -54,7 +59,3 @@ databases:
   - name: queueflow-postgres
     databaseName: queueflow
     user: postgres
-
-redis:
-  - name: queueflow-redis
-    plan: free
