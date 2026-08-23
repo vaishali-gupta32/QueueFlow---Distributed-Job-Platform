@@ -1,4 +1,5 @@
 FROM node:20-alpine AS builder
+RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app
 COPY package*.json ./
 COPY packages/shared/package*.json ./packages/shared/
@@ -11,6 +12,7 @@ RUN npm run build --workspace=packages/shared
 RUN npm run build --workspace=apps/api
 
 FROM node:20-alpine AS runner
+RUN apk add --no-cache openssl libc6-compat
 WORKDIR /app
 ENV NODE_ENV=production
 COPY package*.json ./
@@ -20,4 +22,4 @@ COPY --from=builder /app/apps/api ./apps/api
 COPY --from=builder /app/prisma ./prisma
 
 EXPOSE 4000
-CMD ["sh", "-c", "npx prisma db push --accept-data-loss && npm run start --workspace=apps/api"]
+CMD ["sh", "-c", "npx prisma db push --accept-data-loss && node apps/api/dist/server.js"]
